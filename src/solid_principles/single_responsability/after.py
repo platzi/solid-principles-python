@@ -58,7 +58,9 @@ class TransactionLogger:
     def log(self, customer_data, payment_data, charge):
         # Responsabilidad de registro
         with open("transactions.log", "a") as log_file:
-            log_file.write(f"{customer_data['name']} paid {payment_data['amount']}\n")
+            log_file.write(
+                f"{customer_data['name']} paid {payment_data['amount']}\n"
+            )
             log_file.write(f"Payment status: {charge['status']}\n")
 
 
@@ -126,11 +128,17 @@ if __name__ == "__main__":
 
     payment_data = {"amount": 500, "source": "tok_mastercard", "cvv": 123}
 
-    payment_processor.process_transaction(customer_data_with_email, payment_data)
-    payment_processor.process_transaction(customer_data_with_phone, payment_data)
+    payment_processor.process_transaction(
+        customer_data_with_email, payment_data
+    )
+    payment_processor.process_transaction(
+        customer_data_with_phone, payment_data
+    )
 
     payment_data = {"amount": 700, "source": "tok_radarBlock", "cvv": 123}
     try:
-        payment_processor.process_transaction(customer_data_with_email, payment_data)
+        payment_processor.process_transaction(
+            customer_data_with_email, payment_data
+        )
     except Exception as e:
         print(f"Error con el procesamiento: {e}")

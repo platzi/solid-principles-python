@@ -15,3 +15,7 @@ dev-dependencies = [
     "pytest>=8.3.3",
     "ruff>=0.6.8",
 ]
+
+
+[tool.ruff]
+line-length = 79

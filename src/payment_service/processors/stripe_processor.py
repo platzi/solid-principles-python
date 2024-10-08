@@ -14,7 +14,9 @@ _ = load_dotenv()
 
 
 class StripePaymentProcessor(
-    PaymentProcessorProtocol, RefundProcessorProtocol, RecurringPaymentProcessorProtocol
+    PaymentProcessorProtocol,
+    RefundProcessorProtocol,
+    RecurringPaymentProcessorProtocol,
 ):
     def process_transaction(
         self, customer_data: CustomerData, payment_data: PaymentData
@@ -102,7 +104,9 @@ class StripePaymentProcessor(
                 message=str(e),
             )
 
-    def _get_or_create_customer(self, customer_data: CustomerData) -> stripe.Customer:
+    def _get_or_create_customer(
+        self, customer_data: CustomerData
+    ) -> stripe.Customer:
         """
         Creates a new customer in Stripe or retrieves an existing one.
         """
@@ -129,7 +133,9 @@ class StripePaymentProcessor(
             payment_method.id,
             customer=customer_id,
         )
-        print(f"Payment method {payment_method.id} attached to customer {customer_id}")
+        print(
+            f"Payment method {payment_method.id} attached to customer {customer_id}"
+        )
         return payment_method
 
     def _set_default_payment_method(

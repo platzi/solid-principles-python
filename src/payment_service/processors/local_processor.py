@@ -8,7 +8,9 @@ from .refunds import RefundProcessorProtocol
 
 
 class LocalPaymentProcessor(
-    PaymentProcessorProtocol, RefundProcessorProtocol, RecurringPaymentProcessorProtocol
+    PaymentProcessorProtocol,
+    RefundProcessorProtocol,
+    RecurringPaymentProcessorProtocol,
 ):
     """
     A payment processor that processes payments locally.

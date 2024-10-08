@@ -145,7 +145,9 @@ class StripePaymentProcessor(
                 message=str(e),
             )
 
-    def _get_or_create_customer(self, customer_data: CustomerData) -> stripe.Customer:
+    def _get_or_create_customer(
+        self, customer_data: CustomerData
+    ) -> stripe.Customer:
         """
         Creates a new customer in Stripe or retrieves an existing one.
         """
@@ -172,7 +174,9 @@ class StripePaymentProcessor(
             payment_method.id,
             customer=customer_id,
         )
-        print(f"Payment method {payment_method.id} attached to customer {customer_id}")
+        print(
+            f"Payment method {payment_method.id} attached to customer {customer_id}"
+        )
         return payment_method
 
     def _set_default_payment_method(
@@ -252,15 +256,23 @@ class TransactionLogger:
         payment_response: PaymentResponse,
     ):
         with open("transactions.log", "a") as log_file:
-            log_file.write(f"{customer_data.name} paid {payment_data.amount}\n")
+            log_file.write(
+                f"{customer_data.name} paid {payment_data.amount}\n"
+            )
             log_file.write(f"Payment status: {payment_response.status}\n")
             if payment_response.transaction_id:
-                log_file.write(f"Transaction ID: {payment_response.transaction_id}\n")
+                log_file.write(
+                    f"Transaction ID: {payment_response.transaction_id}\n"
+                )
             log_file.write(f"Message: {payment_response.message}\n")
 
-    def log_refund(self, transaction_id: str, refund_response: PaymentResponse):
+    def log_refund(
+        self, transaction_id: str, refund_response: PaymentResponse
+    ):
         with open("transactions.log", "a") as log_file:
-            log_file.write(f"Refund processed for transaction {transaction_id}\n")
+            log_file.write(
+                f"Refund processed for transaction {transaction_id}\n"
+            )
             log_file.write(f"Refund status: {refund_response.status}\n")
             log_file.write(f"Message: {refund_response.message}\n")
 
@@ -273,7 +285,10 @@ class CustomerValidator:
         if not customer_data.contact_info:
             print("Invalid customer data: missing contact info")
             raise ValueError("Invalid customer data: missing contact info")
-        if not (customer_data.contact_info.email or customer_data.contact_info.phone):
+        if not (
+            customer_data.contact_info.email
+            or customer_data.contact_info.phone
+        ):
             print("Invalid customer data: missing email and phone")
             raise ValueError("Invalid customer data: missing email and phone")
 
@@ -307,7 +322,9 @@ class PaymentService:
             customer_data, payment_data
         )
         self.notifier.send_confirmation(customer_data)
-        self.logger.log_transaction(customer_data, payment_data, payment_response)
+        self.logger.log_transaction(
+            customer_data, payment_data, payment_response
+        )
         return payment_response
 
     def process_refund(self, transaction_id: str):
@@ -317,13 +334,17 @@ class PaymentService:
         self.logger.log_refund(transaction_id, refund_response)
         return refund_response
 
-    def setup_recurring(self, customer_data: CustomerData, payment_data: PaymentData):
+    def setup_recurring(
+        self, customer_data: CustomerData, payment_data: PaymentData
+    ):
         if not self.recurring_processor:
             raise Exception("this processor does not support recurring")
         recurring_response = self.recurring_processor.setup_recurring_payment(
             customer_data, payment_data
         )
-        self.logger.log_transaction(customer_data, payment_data, recurring_response)
+        self.logger.log_transaction(
+            customer_data, payment_data, recurring_response
+        )
         return recurring_response
 
 

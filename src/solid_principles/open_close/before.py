@@ -35,7 +35,10 @@ class CustomerValidator:
         if not customer_data.contact_info:
             print("Invalid customer data: missing contact info")
             raise ValueError("Invalid customer data: missing contact info")
-        if not (customer_data.contact_info.email or customer_data.contact_info.phone):
+        if not (
+            customer_data.contact_info.email
+            or customer_data.contact_info.phone
+        ):
             print("Invalid customer data: missing email and phone")
             raise ValueError("Invalid customer data: missing email and phone")
 
@@ -80,10 +83,15 @@ class SMSNotifier(Notifier):
 @dataclass
 class TransactionLogger:
     def log(
-        self, customer_data: CustomerData, payment_data: PaymentData, charge: Charge
+        self,
+        customer_data: CustomerData,
+        payment_data: PaymentData,
+        charge: Charge,
     ):
         with open("transactions.log", "a") as log_file:
-            log_file.write(f"{customer_data.name} paid {payment_data.amount}\n")
+            log_file.write(
+                f"{customer_data.name} paid {payment_data.amount}\n"
+            )
             log_file.write(f"Payment status: {charge['status']}\n")
 
 
@@ -118,7 +126,9 @@ class StripePaymentProcessor(PaymentProcessor):
 class PaymentService:
     customer_validator = CustomerValidator()
     payment_validator = PaymentDataValidator()
-    payment_processor: PaymentProcessor = field(default_factory=StripePaymentProcessor)
+    payment_processor: PaymentProcessor = field(
+        default_factory=StripePaymentProcessor
+    )
     notifier: Notifier = field(default_factory=EmailNotifier)
     logger = TransactionLogger()
 
@@ -157,8 +167,12 @@ if __name__ == "__main__":
 
     payment_data = PaymentData(amount=100, source="tok_visa")
 
-    payment_processor.process_transaction(customer_data_with_email, payment_data)
-    payment_processor.process_transaction(customer_data_with_phone, payment_data)
+    payment_processor.process_transaction(
+        customer_data_with_email, payment_data
+    )
+    payment_processor.process_transaction(
+        customer_data_with_phone, payment_data
+    )
 
     try:
         error_payment_data = PaymentData(amount=100, source="tok_radarBlock")
