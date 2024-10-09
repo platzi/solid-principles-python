@@ -2,9 +2,11 @@ from dataclasses import dataclass
 
 from payment_service.commons import CustomerData
 
+from .notifier import NotifierProtocol
+
 
 @dataclass
-class SMSNotifier:
+class SMSNotifier(NotifierProtocol):
     gateway: str
 
     def send_confirmation(self, customer_data: CustomerData):
