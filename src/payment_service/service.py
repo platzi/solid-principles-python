@@ -1,19 +1,15 @@
 from dataclasses import dataclass
-
 from typing import Optional
 
 from .commons import CustomerData, PaymentData, PaymentResponse
-
+from .loggers import TransactionLogger
+from .notifiers import NotifierProtocol
 from .processors import (
     PaymentProcessorProtocol,
     RecurringPaymentProcessorProtocol,
     RefundProcessorProtocol,
 )
-from .notifiers import NotifierProtocol
-
-
 from .validators import CustomerValidator, PaymentDataValidator
-from .loggers import TransactionLogger
 
 
 @dataclass
@@ -25,6 +21,10 @@ class PaymentService:
     logger: TransactionLogger
     refund_processor: Optional[RefundProcessorProtocol] = None
     recurring_processor: Optional[RecurringPaymentProcessorProtocol] = None
+
+    def set_notifier(self, notifier: NotifierProtocol):
+        print("Changing the notifier implementation")
+        self.notifier = notifier
 
     def process_transaction(
         self, customer_data: CustomerData, payment_data: PaymentData
