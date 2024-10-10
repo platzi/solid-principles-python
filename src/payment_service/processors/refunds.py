@@ -1,6 +1,6 @@
 from typing_extensions import Protocol
 
-from payment_service.commons import PaymentResponse
+from commons import PaymentResponse
 
 
 class RefundProcessorProtocol(Protocol):

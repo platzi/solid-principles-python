@@ -1,6 +1,6 @@
 from typing import Protocol
 
-from payment_service.commons import CustomerData, PaymentData, PaymentResponse
+from commons import CustomerData, PaymentData, PaymentResponse
 
 
 class PaymentProcessorProtocol(Protocol):

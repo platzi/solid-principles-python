@@ -1,6 +1,6 @@
 import uuid
 
-from payment_service.commons import CustomerData, PaymentData, PaymentResponse
+from commons import CustomerData, PaymentData, PaymentResponse
 
 from .payment import PaymentProcessorProtocol
 from .recurring import RecurringPaymentProcessorProtocol
@@ -18,7 +18,7 @@ class LocalPaymentProcessor(
     Useful when the payment is not in USD currency.
     """
 
-    def process_payment(
+    def process_transaction(
         self, customer_data: CustomerData, payment_data: PaymentData
     ) -> PaymentResponse:
         print("Processing local payment for", customer_data.name)

@@ -4,7 +4,7 @@ import stripe
 from dotenv import load_dotenv
 from stripe.error import StripeError  # type: ignore
 
-from payment_service.commons import CustomerData, PaymentData, PaymentResponse
+from commons import CustomerData, PaymentData, PaymentResponse
 
 from .payment import PaymentProcessorProtocol
 from .recurring import RecurringPaymentProcessorProtocol

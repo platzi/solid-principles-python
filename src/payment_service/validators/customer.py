@@ -1,4 +1,4 @@
-from payment_service.commons import CustomerData
+from commons import CustomerData
 
 
 class CustomerValidator:

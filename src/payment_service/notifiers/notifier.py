@@ -1,6 +1,6 @@
 from typing import Protocol
 
-from payment_service.commons import CustomerData
+from commons import CustomerData
 
 
 class NotifierProtocol(Protocol):
