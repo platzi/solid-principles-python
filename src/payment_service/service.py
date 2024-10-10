@@ -1,15 +1,15 @@
 from dataclasses import dataclass
 from typing import Optional
 
-from .commons import CustomerData, PaymentData, PaymentResponse
-from .loggers import TransactionLogger
-from .notifiers import NotifierProtocol
-from .processors import (
+from commons import CustomerData, PaymentData, PaymentResponse
+from loggers import TransactionLogger
+from notifiers import NotifierProtocol
+from processors import (
     PaymentProcessorProtocol,
     RecurringPaymentProcessorProtocol,
     RefundProcessorProtocol,
 )
-from .validators import CustomerValidator, PaymentDataValidator
+from validators import CustomerValidator, PaymentDataValidator
 
 
 @dataclass
