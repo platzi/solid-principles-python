@@ -60,16 +60,3 @@ if __name__ == "__main__":
     logging_service = PaymentServiceLogging(wrapped=service)
 
     logging_service.process_refund(transaction_id="12345")
-    # service = PaymentService(
-    #     payment_processor=stripe_payment_processor,
-    #     notifier=notifier,
-    #     customer_validator=customer_validator,
-    #     payment_validator=payment_data_validator,
-    #     logger=logger,
-    # )
-
-    # # Cambio de estrategia de notificación a estrategia de email
-    # service.set_notifier(email_notifier)
-
-    # # Cambiar la estrategia a la estrageia de sms
-    # service.set_notifier(sms_notifier)
