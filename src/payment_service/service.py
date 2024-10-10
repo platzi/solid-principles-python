@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, Self
 
 from commons import CustomerData, PaymentData, PaymentResponse
 from loggers import TransactionLogger
@@ -10,6 +10,7 @@ from processors import (
     RefundProcessorProtocol,
 )
 from validators import CustomerValidator, PaymentDataValidator
+from factory import PaymentProcessorFactory
 
 
 @dataclass
@@ -21,6 +22,19 @@ class PaymentService:
     logger: TransactionLogger
     refund_processor: Optional[RefundProcessorProtocol] = None
     recurring_processor: Optional[RecurringPaymentProcessorProtocol] = None
+
+    @classmethod
+    def create_with_payment_processor(
+        cls, payment_data: PaymentData, **kwargs
+    ) -> Self:
+        try:
+            processor = PaymentProcessorFactory.create_payment_processor(
+                payment_data
+            )
+            return cls(payment_processor=processor, **kwargs)
+        except ValueError as e:
+            print("Error creando la clase")
+            raise e
 
     def set_notifier(self, notifier: NotifierProtocol):
         print("Changing the notifier implementation")
