@@ -13,8 +13,11 @@ from validators import CustomerValidator, PaymentDataValidator
 from factory import PaymentProcessorFactory
 
 
+from service_protocol import PaymentServiceProtocol
+
+
 @dataclass
-class PaymentService:
+class PaymentService(PaymentServiceProtocol):
     payment_processor: PaymentProcessorProtocol
     notifier: NotifierProtocol
     customer_validator: CustomerValidator
