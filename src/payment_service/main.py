@@ -4,6 +4,7 @@ from processors import StripePaymentProcessor
 from service import PaymentService
 from validators import CustomerValidator, PaymentDataValidator
 
+from builder import PaymentServiceBuilder
 from commons import CustomerData, ContactInfo, PaymentData
 
 from logging_service import PaymentServiceLogging
@@ -36,27 +37,35 @@ def get_customer_data() -> CustomerData:
 
 
 if __name__ == "__main__":
-    stripe_payment_processor = StripePaymentProcessor()
+    # stripe_payment_processor = StripePaymentProcessor()
 
     customer_data = get_customer_data()
-    notifier = get_notifier_implementation(customer_data=customer_data)
+    # notifier = get_notifier_implementation(customer_data=customer_data)
 
-    email_notifier = get_email_notifier()
-    sms_notifier = get_sms_notifier()
+    # email_notifier = get_email_notifier()
+    # sms_notifier = get_sms_notifier()
 
-    customer_validator = CustomerValidator()
-    payment_data_validator = PaymentDataValidator()
-    logger = TransactionLogger()
+    # customer_validator = CustomerValidator()
+    # payment_data_validator = PaymentDataValidator()
+    # logger = TransactionLogger()
 
     payment_data = PaymentData(amount=100, source="tok_visa", currency="USD")
-    service = PaymentService.create_with_payment_processor(
-        payment_data=payment_data,
-        notifier=notifier,
-        customer_validator=customer_validator,
-        payment_validator=payment_data_validator,
-        logger=logger,
+    builder = PaymentServiceBuilder()
+    service = (
+        builder.set_logger()
+        .set_customer_validator()
+        .set_payment_processor(payment_data)
+        .set_notifier(customer_data)
+        .build()
     )
+    # service = PaymentService.create_with_payment_processor(
+    #     payment_data=payment_data,
+    #     notifier=notifier,
+    #     customer_validator=customer_validator,
+    #     payment_validator=payment_data_validator,
+    #     logger=logger,
+    # )
 
-    logging_service = PaymentServiceLogging(wrapped=service)
+    # logging_service = PaymentServiceLogging(wrapped=service)
 
-    logging_service.process_refund(transaction_id="12345")
+    # logging_service.process_refund(transaction_id="12345")
