@@ -14,6 +14,7 @@ from factory import PaymentProcessorFactory
 
 
 from service_protocol import PaymentServiceProtocol
+from listeners import ListenersManager
 
 
 @dataclass
@@ -23,6 +24,7 @@ class PaymentService(PaymentServiceProtocol):
     customer_validator: CustomerValidator
     payment_validator: PaymentDataValidator
     logger: TransactionLogger
+    listeners: ListenersManager
     refund_processor: Optional[RefundProcessorProtocol] = None
     recurring_processor: Optional[RecurringPaymentProcessorProtocol] = None
 
@@ -50,6 +52,9 @@ class PaymentService(PaymentServiceProtocol):
         self.payment_validator.validate(payment_data)
         payment_response = self.payment_processor.process_transaction(
             customer_data, payment_data
+        )
+        self.listeners.notifyAll(
+            f"pago exitoso al evento: {payment_response.transaction_id}"
         )
         self.notifier.send_confirmation(customer_data)
         self.logger.log_transaction(
