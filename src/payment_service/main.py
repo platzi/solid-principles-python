@@ -49,15 +49,19 @@ if __name__ == "__main__":
     # payment_data_validator = PaymentDataValidator()
     # logger = TransactionLogger()
 
-    payment_data = PaymentData(amount=100, source="tok_visa", currency="USD")
+    payment_data = PaymentData(amount=1500, source="tok_visa", currency="USD")
     builder = PaymentServiceBuilder()
     service = (
         builder.set_logger()
-        .set_customer_validator()
         .set_payment_processor(payment_data)
+        .set_chain_of_validations()
         .set_notifier(customer_data)
+        .set_listeners()
         .build()
     )
+
+    service.process_transaction(customer_data, payment_data)
+
     # service = PaymentService.create_with_payment_processor(
     #     payment_data=payment_data,
     #     notifier=notifier,
