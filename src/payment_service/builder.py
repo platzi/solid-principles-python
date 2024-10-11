@@ -25,9 +25,7 @@ from validators import (
 class PaymentServiceBuilder:
     payment_processor: Optional[PaymentProcessorProtocol] = None
     notifier: Optional[NotifierProtocol] = None
-    # customer_validator: Optional[CustomerValidator] = None
     validator: Optional[ChainHandler] = None
-    # payment_validator: Optional[PaymentDataValidator] = None
     logger: Optional[TransactionLogger] = None
     listener: Optional[ListenersManager] = None
     refund_processor: Optional[RefundProcessorProtocol] = None
@@ -36,14 +34,6 @@ class PaymentServiceBuilder:
     def set_logger(self) -> Self:
         self.logger = TransactionLogger()
         return self
-
-    # def set_payment_validator(self) -> Self:
-    #     self.payment_validator = PaymentDataValidator()
-    #     return self
-
-    # def set_customer_validator(self) -> Self:
-    #     self.customer_validator = CustomerValidator()
-    #     return self
 
     def set_payment_processor(self, payment_data: PaymentData) -> Self:
         self.payment_processor = (
